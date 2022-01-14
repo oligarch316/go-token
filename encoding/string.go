@@ -2,12 +2,14 @@ package encoding
 
 import (
 	"encoding/base64"
-	"fmt"
 
+	"github.com/oligarch316/go-token/errors"
 	"google.golang.org/protobuf/proto"
 
 	"github.com/oligarch316/go-token/proto/gen/tokenpb"
 )
+
+const errClass = errors.ClassInvalidTokenData
 
 var URLString = urlString{}
 
@@ -15,17 +17,25 @@ type urlString struct{}
 
 func (urlString) Encode(t *tokenpb.Token) (string, error) {
 	b, err := proto.Marshal(t)
-	return base64.RawURLEncoding.EncodeToString(b), err
+	if err != nil {
+		return "", errors.New(errClass, err)
+	}
+
+	return base64.RawURLEncoding.EncodeToString(b), nil
 }
 
 func (urlString) Decode(s string) (*tokenpb.Token, error) {
 	b, err := base64.RawURLEncoding.DecodeString(s)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(errClass, err)
 	}
 
 	t := new(tokenpb.Token)
-	return t, proto.Unmarshal(b, t)
+	if err = proto.Unmarshal(b, t); err != nil {
+		return nil, errors.New(errClass, err)
+	}
+
+	return t, nil
 }
 
 type PrefixString string
@@ -40,7 +50,7 @@ func (ps PrefixString) Decode(s string) (*tokenpb.Token, error) {
 	head, tail := s[pLen:], s[:pLen]
 
 	if head != string(ps) {
-		return nil, fmt.Errorf("missing '%s' prefix", string(ps))
+		return nil, errors.Messagef(errClass, "missing '%s' prefix", string(ps))
 	}
 
 	return URLString.Decode(tail)

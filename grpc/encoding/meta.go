@@ -1,14 +1,15 @@
 package encoding
 
 import (
-	"fmt"
-
 	"github.com/oligarch316/go-token"
 	"github.com/oligarch316/go-token/encoding"
+	"github.com/oligarch316/go-token/errors"
 	"google.golang.org/grpc/metadata"
 
 	"github.com/oligarch316/go-token/proto/gen/tokenpb"
 )
+
+const errClass = errors.ClassInvalidTokenData
 
 var AuthorizationMeta = HeaderMeta{
 	Name:          "authorization",
@@ -31,9 +32,9 @@ func (hm HeaderMeta) Decode(md metadata.MD) (*tokenpb.Token, error) {
 	switch len(vals) {
 	case 1:
 	case 0:
-		return nil, fmt.Errorf("missing '%s' header", hm.Name)
+		return nil, errors.Messagef(errClass, "missing '%s' header", hm.Name)
 	default:
-		return nil, fmt.Errorf("multiple '%s' header values", hm.Name)
+		return nil, errors.Messagef(errClass, "multiple '%s' header values", hm.Name)
 	}
 
 	return hm.ValueEncoding.Decode(vals[0])
