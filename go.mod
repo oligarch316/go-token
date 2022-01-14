@@ -1,4 +1,4 @@
-module github.com/oligarch316/go-token
+module github.com/oligarch316/go-tokenx
 
 go 1.17
 

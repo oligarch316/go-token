@@ -1,7 +1,7 @@
 package status
 
 import (
-	"github.com/oligarch316/go-token/errors"
+	"github.com/oligarch316/go-tokenx/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

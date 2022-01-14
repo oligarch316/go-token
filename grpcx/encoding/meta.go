@@ -1,12 +1,12 @@
 package encoding
 
 import (
-	"github.com/oligarch316/go-token"
-	"github.com/oligarch316/go-token/encoding"
-	"github.com/oligarch316/go-token/errors"
+	token "github.com/oligarch316/go-tokenx"
+	"github.com/oligarch316/go-tokenx/encoding"
+	"github.com/oligarch316/go-tokenx/errors"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/oligarch316/go-token/proto/gen/tokenxpb"
+	"github.com/oligarch316/go-tokenx/proto/gen/tokenxpb"
 )
 
 const errClass = errors.ClassInvalidTokenData

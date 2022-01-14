@@ -3,10 +3,10 @@ package encoding
 import (
 	"encoding/base64"
 
-	"github.com/oligarch316/go-token/errors"
+	"github.com/oligarch316/go-tokenx/errors"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/oligarch316/go-token/proto/gen/tokenxpb"
+	"github.com/oligarch316/go-tokenx/proto/gen/tokenxpb"
 )
 
 const errClass = errors.ClassInvalidTokenData

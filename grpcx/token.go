@@ -3,11 +3,11 @@ package grpcx
 import (
 	"context"
 
-	"github.com/oligarch316/go-token/errors"
-	"github.com/oligarch316/go-token/grpcx/status"
+	"github.com/oligarch316/go-tokenx/errors"
+	"github.com/oligarch316/go-tokenx/grpcx/status"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/oligarch316/go-token/proto/gen/tokenxpb"
+	"github.com/oligarch316/go-tokenx/proto/gen/tokenxpb"
 )
 
 var errMissingMetadata = errors.Message(errors.ClassInvalidTokenData, "missing metadata")

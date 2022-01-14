@@ -3,10 +3,10 @@ package token
 import (
 	"crypto/ed25519"
 
-	"github.com/oligarch316/go-token/errors"
+	"github.com/oligarch316/go-tokenx/errors"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/oligarch316/go-token/proto/gen/tokenxpb"
+	"github.com/oligarch316/go-tokenx/proto/gen/tokenxpb"
 	"google.golang.org/protobuf/types/known/anypb"
 )
 
