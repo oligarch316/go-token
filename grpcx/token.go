@@ -1,10 +1,10 @@
-package grpc
+package grpcx
 
 import (
 	"context"
 
 	"github.com/oligarch316/go-token/errors"
-	"github.com/oligarch316/go-token/grpc/status"
+	"github.com/oligarch316/go-token/grpcx/status"
 	"google.golang.org/grpc/metadata"
 
 	"github.com/oligarch316/go-token/proto/gen/tokenpb"
