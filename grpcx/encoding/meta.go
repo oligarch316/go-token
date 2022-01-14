@@ -6,7 +6,7 @@ import (
 	"github.com/oligarch316/go-token/errors"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/oligarch316/go-token/proto/gen/tokenpb"
+	"github.com/oligarch316/go-token/proto/gen/tokenxpb"
 )
 
 const errClass = errors.ClassInvalidTokenData
@@ -21,12 +21,12 @@ type HeaderMeta struct {
 	ValueEncoding token.StringEncoding
 }
 
-func (hm HeaderMeta) Encode(t *tokenpb.Token) (metadata.MD, error) {
+func (hm HeaderMeta) Encode(t *tokenxpb.Token) (metadata.MD, error) {
 	s, err := hm.ValueEncoding.Encode(t)
 	return metadata.Pairs(hm.Name, s), err
 }
 
-func (hm HeaderMeta) Decode(md metadata.MD) (*tokenpb.Token, error) {
+func (hm HeaderMeta) Decode(md metadata.MD) (*tokenxpb.Token, error) {
 	vals := md.Get(hm.Name)
 
 	switch len(vals) {

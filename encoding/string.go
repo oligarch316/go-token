@@ -6,7 +6,7 @@ import (
 	"github.com/oligarch316/go-token/errors"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/oligarch316/go-token/proto/gen/tokenpb"
+	"github.com/oligarch316/go-token/proto/gen/tokenxpb"
 )
 
 const errClass = errors.ClassInvalidTokenData
@@ -15,7 +15,7 @@ var URLString = urlString{}
 
 type urlString struct{}
 
-func (urlString) Encode(t *tokenpb.Token) (string, error) {
+func (urlString) Encode(t *tokenxpb.Token) (string, error) {
 	b, err := proto.Marshal(t)
 	if err != nil {
 		return "", errors.New(errClass, err)
@@ -24,13 +24,13 @@ func (urlString) Encode(t *tokenpb.Token) (string, error) {
 	return base64.RawURLEncoding.EncodeToString(b), nil
 }
 
-func (urlString) Decode(s string) (*tokenpb.Token, error) {
+func (urlString) Decode(s string) (*tokenxpb.Token, error) {
 	b, err := base64.RawURLEncoding.DecodeString(s)
 	if err != nil {
 		return nil, errors.New(errClass, err)
 	}
 
-	t := new(tokenpb.Token)
+	t := new(tokenxpb.Token)
 	if err = proto.Unmarshal(b, t); err != nil {
 		return nil, errors.New(errClass, err)
 	}
@@ -40,12 +40,12 @@ func (urlString) Decode(s string) (*tokenpb.Token, error) {
 
 type PrefixString string
 
-func (ps PrefixString) Encode(t *tokenpb.Token) (string, error) {
+func (ps PrefixString) Encode(t *tokenxpb.Token) (string, error) {
 	s, err := URLString.Encode(t)
 	return string(ps) + s, err
 }
 
-func (ps PrefixString) Decode(s string) (*tokenpb.Token, error) {
+func (ps PrefixString) Decode(s string) (*tokenxpb.Token, error) {
 	pLen := len(ps)
 	head, tail := s[pLen:], s[:pLen]
 

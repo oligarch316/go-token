@@ -18,7 +18,6 @@ proto_targets := $(proto_sources:proto/src/%.proto=proto/gen/%.pb.go)
 
 proto/gen/%.pb.go: proto/src/%.proto
 	$(info Compiling protobuf '$@')
-	@mkdir -p $(@D)
 	@protoc \
 		--proto_path=proto/src \
 		--go_out=. --go_opt=module=$(proto_module_prefix) \

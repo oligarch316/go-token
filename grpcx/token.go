@@ -7,17 +7,17 @@ import (
 	"github.com/oligarch316/go-token/grpcx/status"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/oligarch316/go-token/proto/gen/tokenpb"
+	"github.com/oligarch316/go-token/proto/gen/tokenxpb"
 )
 
 var errMissingMetadata = errors.Message(errors.ClassInvalidTokenData, "missing metadata")
 
 type MetaEncoder interface {
-	Encode(*tokenpb.Token) (metadata.MD, error)
+	Encode(*tokenxpb.Token) (metadata.MD, error)
 }
 
 type MetaDecoder interface {
-	Decode(metadata.MD) (*tokenpb.Token, error)
+	Decode(metadata.MD) (*tokenxpb.Token, error)
 }
 
 type MetaEncoding interface {
@@ -25,7 +25,7 @@ type MetaEncoding interface {
 	MetaDecoder
 }
 
-func FromIncomingContext(ctx context.Context, dec MetaDecoder) (*tokenpb.Token, error) {
+func FromIncomingContext(ctx context.Context, dec MetaDecoder) (*tokenxpb.Token, error) {
 	if md, ok := metadata.FromIncomingContext(ctx); ok {
 		return dec.Decode(md)
 	}
