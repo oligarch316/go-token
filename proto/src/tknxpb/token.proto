@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package token;
+package tknx;
 
 option go_package = "github.com/oligarch316/go-tokenx/proto/gen/tknxpb";
 

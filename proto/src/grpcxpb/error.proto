@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package grpcx;
+
+option go_package = "github.com/oligarch316/go-tokenx/proto/gen/grpcxpb";
+
+message ErrorInfo {
+    string class = 1;
+    string cause = 2;
+}

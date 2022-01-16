@@ -4,7 +4,6 @@ import (
 	"context"
 
 	tknxerr "github.com/oligarch316/go-tokenx/errors"
-	grpcxstatus "github.com/oligarch316/go-tokenx/grpcx/status"
 	"google.golang.org/grpc/metadata"
 
 	"github.com/oligarch316/go-tokenx/proto/gen/tknxpb"
@@ -32,5 +31,3 @@ func FromIncomingContext(ctx context.Context, dec MetaDecoder) (*tknxpb.Token, e
 
 	return nil, errMissingMetadata
 }
-
-func ConvertError(err error) error { return grpcxstatus.Convert(err).Err() }

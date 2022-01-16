@@ -6,27 +6,26 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-const unknownClassCode = codes.Internal
+const unknownClassCode = codes.Unknown
 
 var knownClassCodes = map[tknxerr.Class]codes.Code{
+	tknxerr.ClassUnknown:               codes.Internal,
+	tknxerr.ClassInvalidKey:            codes.Internal,
 	tknxerr.ClassInvalidTokenData:      codes.Unauthenticated,
 	tknxerr.ClassInvalidTokenSignature: codes.Unauthenticated,
-	tknxerr.ClassInvalidKey:            codes.Internal,
 }
 
-func FromError(err error) (*status.Status, bool) {
-	if s, ok := status.FromError(err); ok {
-		return s, true
+func Code(class tknxerr.Class) codes.Code {
+	if code, ok := knownClassCodes[class]; ok {
+		return code
 	}
-
-	if code, ok := knownClassCodes[tknxerr.ClassFrom(err)]; ok {
-		return status.New(code, err.Error()), true
-	}
-
-	return status.New(unknownClassCode, err.Error()), false
+	return unknownClassCode
 }
 
-func Convert(err error) *status.Status {
-	res, _ := FromError(err)
-	return res
+func New(class tknxerr.Class, msg string) *status.Status {
+	return status.New(Code(class), msg)
+}
+
+func Newf(class tknxerr.Class, format string, a ...interface{}) *status.Status {
+	return status.Newf(Code(class), format, a...)
 }
