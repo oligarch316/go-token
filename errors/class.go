@@ -9,7 +9,7 @@ const (
 	ClassInvalidTokenSignature
 )
 
-const unknownClassString = "unknown"
+const unknownClassString = "unknown error"
 
 var knownClassStrings = map[Class]string{
 	ClassInvalidKey:            "invalid key",

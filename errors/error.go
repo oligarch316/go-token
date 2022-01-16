@@ -6,15 +6,14 @@ import (
 )
 
 type Error struct {
-	class Class
+	Class
 	error
 }
 
-func (e Error) Class() Class  { return e.class }
 func (e Error) Unwrap() error { return e.error }
 
 func New(class Class, err error) Error {
-	return Error{class: class, error: err}
+	return Error{Class: class, error: err}
 }
 
 func Message(class Class, msg string) Error {
@@ -25,10 +24,12 @@ func Messagef(class Class, format string, a ...interface{}) Error {
 	return Message(class, fmt.Sprintf(format, a...))
 }
 
-func ClassFrom(err error) Class {
-	var classified Error
-	if errors.As(err, &classified) {
-		return classified.Class()
+func From(err error) Error {
+	var res Error
+	if errors.As(err, &res) {
+		return res
 	}
-	return ClassUnknown
+	return New(ClassUnknown, err)
 }
+
+func Classify(err error) Class { return From(err).Class }
