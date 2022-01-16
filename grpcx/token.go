@@ -3,21 +3,21 @@ package grpcx
 import (
 	"context"
 
-	"github.com/oligarch316/go-tokenx/errors"
-	"github.com/oligarch316/go-tokenx/grpcx/status"
+	tknxerr "github.com/oligarch316/go-tokenx/errors"
+	grpcxstatus "github.com/oligarch316/go-tokenx/grpcx/status"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/oligarch316/go-tokenx/proto/gen/tokenxpb"
+	"github.com/oligarch316/go-tokenx/proto/gen/tknxpb"
 )
 
-var errMissingMetadata = errors.Message(errors.ClassInvalidTokenData, "missing metadata")
+var errMissingMetadata = tknxerr.Message(tknxerr.ClassInvalidTokenData, "missing metadata")
 
 type MetaEncoder interface {
-	Encode(*tokenxpb.Token) (metadata.MD, error)
+	Encode(*tknxpb.Token) (metadata.MD, error)
 }
 
 type MetaDecoder interface {
-	Decode(metadata.MD) (*tokenxpb.Token, error)
+	Decode(metadata.MD) (*tknxpb.Token, error)
 }
 
 type MetaEncoding interface {
@@ -25,7 +25,7 @@ type MetaEncoding interface {
 	MetaDecoder
 }
 
-func FromIncomingContext(ctx context.Context, dec MetaDecoder) (*tokenxpb.Token, error) {
+func FromIncomingContext(ctx context.Context, dec MetaDecoder) (*tknxpb.Token, error) {
 	if md, ok := metadata.FromIncomingContext(ctx); ok {
 		return dec.Decode(md)
 	}
@@ -33,4 +33,4 @@ func FromIncomingContext(ctx context.Context, dec MetaDecoder) (*tokenxpb.Token,
 	return nil, errMissingMetadata
 }
 
-func ConvertError(err error) error { return status.Convert(err).Err() }
+func ConvertError(err error) error { return grpcxstatus.Convert(err).Err() }
