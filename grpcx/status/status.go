@@ -1,17 +1,17 @@
-package status
+package grpcxstatus
 
 import (
-	"github.com/oligarch316/go-tokenx/errors"
+	tknxerr "github.com/oligarch316/go-tokenx/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 const unknownClassCode = codes.Internal
 
-var knownClassCodes = map[errors.Class]codes.Code{
-	errors.ClassInvalidTokenData:      codes.Unauthenticated,
-	errors.ClassInvalidTokenSignature: codes.Unauthenticated,
-	errors.ClassInvalidKey:            codes.Internal,
+var knownClassCodes = map[tknxerr.Class]codes.Code{
+	tknxerr.ClassInvalidTokenData:      codes.Unauthenticated,
+	tknxerr.ClassInvalidTokenSignature: codes.Unauthenticated,
+	tknxerr.ClassInvalidKey:            codes.Internal,
 }
 
 func FromError(err error) (*status.Status, bool) {
@@ -19,7 +19,7 @@ func FromError(err error) (*status.Status, bool) {
 		return s, true
 	}
 
-	if code, ok := knownClassCodes[errors.ClassFrom(err)]; ok {
+	if code, ok := knownClassCodes[tknxerr.ClassFrom(err)]; ok {
 		return status.New(code, err.Error()), true
 	}
 

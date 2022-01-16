@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package token;
 
-option go_package = "github.com/oligarch316/go-tokenx/proto/gen/tokenxpb";
+option go_package = "github.com/oligarch316/go-tokenx/proto/gen/tknxpb";
 
 import "google/protobuf/any.proto";
 

@@ -1,4 +1,4 @@
-package errors
+package tknxerr
 
 type Class uint8
 

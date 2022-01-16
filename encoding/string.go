@@ -1,38 +1,38 @@
-package encoding
+package tknxenc
 
 import (
 	"encoding/base64"
 
-	"github.com/oligarch316/go-tokenx/errors"
+	tknxerr "github.com/oligarch316/go-tokenx/errors"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/oligarch316/go-tokenx/proto/gen/tokenxpb"
+	"github.com/oligarch316/go-tokenx/proto/gen/tknxpb"
 )
 
-const errClass = errors.ClassInvalidTokenData
+const errClass = tknxerr.ClassInvalidTokenData
 
 var URLString = urlString{}
 
 type urlString struct{}
 
-func (urlString) Encode(t *tokenxpb.Token) (string, error) {
+func (urlString) Encode(t *tknxpb.Token) (string, error) {
 	b, err := proto.Marshal(t)
 	if err != nil {
-		return "", errors.New(errClass, err)
+		return "", tknxerr.New(errClass, err)
 	}
 
 	return base64.RawURLEncoding.EncodeToString(b), nil
 }
 
-func (urlString) Decode(s string) (*tokenxpb.Token, error) {
+func (urlString) Decode(s string) (*tknxpb.Token, error) {
 	b, err := base64.RawURLEncoding.DecodeString(s)
 	if err != nil {
-		return nil, errors.New(errClass, err)
+		return nil, tknxerr.New(errClass, err)
 	}
 
-	t := new(tokenxpb.Token)
+	t := new(tknxpb.Token)
 	if err = proto.Unmarshal(b, t); err != nil {
-		return nil, errors.New(errClass, err)
+		return nil, tknxerr.New(errClass, err)
 	}
 
 	return t, nil
@@ -40,17 +40,17 @@ func (urlString) Decode(s string) (*tokenxpb.Token, error) {
 
 type PrefixString string
 
-func (ps PrefixString) Encode(t *tokenxpb.Token) (string, error) {
+func (ps PrefixString) Encode(t *tknxpb.Token) (string, error) {
 	s, err := URLString.Encode(t)
 	return string(ps) + s, err
 }
 
-func (ps PrefixString) Decode(s string) (*tokenxpb.Token, error) {
+func (ps PrefixString) Decode(s string) (*tknxpb.Token, error) {
 	pLen := len(ps)
 	head, tail := s[pLen:], s[:pLen]
 
 	if head != string(ps) {
-		return nil, errors.Messagef(errClass, "missing '%s' prefix", string(ps))
+		return nil, tknxerr.Messagef(errClass, "missing '%s' prefix", string(ps))
 	}
 
 	return URLString.Decode(tail)
